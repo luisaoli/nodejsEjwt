@@ -8,6 +8,7 @@ router.get('/pessoas/todos', PessoaController.pegaTodasAsPessoas);
 router.get('/pessoas/:id', PessoaController.pegaUmaPessoa);
 router.post('/pessoas', PessoaController.criaPessoa);
 router.post('/pessoas/:id/restaura', PessoaController.restauraPessoa);
+router.post('/pessoas/:estudanteId/cancela', PessoaController.cancelaPessoa);
 router.put('/pessoas/:id', PessoaController.atualizaPessoa);
 router.delete('/pessoas/:id', PessoaController.apagaPessoa);
 router.get('/pessoas/matricula/lotada', PessoaController.pegaTurmasLotadas);
