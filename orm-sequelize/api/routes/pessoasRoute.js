@@ -11,6 +11,7 @@ router.post('/pessoas/:id/restaura', PessoaController.restauraPessoa);
 router.put('/pessoas/:id', PessoaController.atualizaPessoa);
 router.delete('/pessoas/:id', PessoaController.apagaPessoa);
 router.get('/pessoas/:estudanteId/matricula/:matriculaId', PessoaController.pegaUmaMatricula);
+router.get('/pessoas/:estudanteId/matricula', PessoaController.pegaMatriculas);
 router.post('/pessoas/:estudanteId/matricula', PessoaController.criaMatricula);
 router.post('/pessoas/:estudanteId/matricula/:matriculaId/restaura', PessoaController.restauraMatricula);
 router.put('/pessoas/:estudanteId/matricula/:matriculaId', PessoaController.atualizaMatricula);
