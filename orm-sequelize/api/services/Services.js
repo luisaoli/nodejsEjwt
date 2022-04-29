@@ -10,11 +10,11 @@ class Services {
     }
 
     async pegaUmRegistro(id){
-
+        return database[this.nomeDoModelo].findOne({where: id });
     }
 
     async criaRegistro(dados){
-
+        return database[this.nomeDoModelo].create(dados);
     }
 
     async atualizaRegistro(dadosAtualizados, id, transacao = {}){
@@ -28,7 +28,11 @@ class Services {
     }
 
     async apagaRegistro(id){
+        return database[this.nomeDoModelo].destroy({ where: id });
+    }
 
+    async restauraRegistro(id){
+        return database[this.nomeDoModelo].restore({ where: id });
     }
 
 }
