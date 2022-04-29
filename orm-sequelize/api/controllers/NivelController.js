@@ -16,11 +16,7 @@ class NivelController {
   static async pegaUmNivel(req, res) {
     const { id } = req.params
     try {
-      const umNivel = await niveisServices.pegaUmRegistro( { 
-        where: { 
-          id: Number(id) 
-        }
-      })
+      const umNivel = await niveisServices.pegaUmRegistro(Number(id))
       return res.status(200).json(umNivel);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -42,7 +38,7 @@ class NivelController {
     const novasInfos = req.body
     try {
       await niveisServices.atualizaRegistro(novasInfos, Number(id));
-      const nivelAtualizado = await niveisServices.pegaUmRegistro({ id: Number(id) });
+      const nivelAtualizado = await niveisServices.pegaUmRegistro(Number(id));
       return res.status(200).json(nivelAtualizado);
     } catch (error) {
       return res.status(500).json(error.message);
@@ -52,7 +48,7 @@ class NivelController {
   static async apagaNivel(req, res) {
     const { id } = req.params
     try {
-      await niveisServices.apagaRegistro({ id: Number(id) });
+      await niveisServices.apagaRegistro(Number(id));
       return res.status(200).json({ mensagem: `id ${id} deletado` });
 
     } catch (error) {
@@ -63,8 +59,8 @@ class NivelController {
   static async restauraNivel(req, res) {
     const { id } = req.params;
     try {
-        await niveisServices.restauraRegistro( { where: { id: Number(id) } } )
-        return res.status(200).json({ message: `id ${id} restaurado`})
+        await niveisServices.restauraRegistro(Number(id));
+        return res.status(200).json({ message: `id ${id} restaurado`});
     } catch(error){
         return res.status(500).json(error.message);
     }

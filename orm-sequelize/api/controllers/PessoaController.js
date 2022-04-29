@@ -26,7 +26,7 @@ class PessoaController {
     static async pegaUmaPessoa(req, res) {
         const { id } = req.params;
         try {
-            const umaPessoa = await pessoasServices.pegaUmRegistro({ id: Number(id) });
+            const umaPessoa = await pessoasServices.pegaUmRegistro(Number(id));
             return res.status(200).json(umaPessoa);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -48,7 +48,7 @@ class PessoaController {
         const novasInfos = req.body;
         try {
             await pessoasServices.atualizaRegistro(novasInfos, Number(id))
-            const pessoaAtualizada = await pessoasServices.pegaUmRegistro({ id: Number(id) });
+            const pessoaAtualizada = await pessoasServices.pegaUmRegistro(Number(id));
             return res.status(200).json(pessoaAtualizada);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -58,7 +58,7 @@ class PessoaController {
     static async apagaPessoa(req, res) {
         const { id } = req.params;
         try {
-            await pessoasServices.apagaRegistro({ id: Number(id) });
+            await pessoasServices.apagaRegistro(Number(id));
             return res.status(200).json({ mensagem: `id ${id} deletado` })
         } catch (error) {
             return res.status(500).json(error.message);
@@ -68,7 +68,7 @@ class PessoaController {
     static async restauraPessoa(req, res) {
         const { id } = req.params;
         try {
-            await pessoasServices.restauraRegistro({ id: Number(id) });
+            await pessoasServices.restauraRegistro(Number(id));
             return res.status(200).json({ message: `id ${id} restaurado` });
         } catch (error) {
             return res.status(500).json(error.message);
@@ -78,8 +78,8 @@ class PessoaController {
     static async pegaMatriculas(req, res) {
         const { estudanteId } = req.params;
         try {
-            const pessoa = await pessoasServices.pegaUmRegistro({ id: Number(estudanteId) });
-            const matriculas = await pessoa.getAulasMatriculadas();
+            const matriculas = await pessoasServices
+            .pegaMatriculasPorEstudante({ id: Number(estudanteId) });
             return res.status(200).json(matriculas)
         } catch (error) {
             return res.status(500).json(error.message);

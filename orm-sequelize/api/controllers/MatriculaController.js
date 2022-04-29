@@ -6,7 +6,7 @@ class MatriculaController {
     static async pegaUmaMatricula(req, res) {
         const { estudanteId, matriculaId } = req.params;
         try {
-            const umaMatricula = await matriculasServices.pegaUmRegistro({ id: Number(matriculaId), estudante_id: Number(estudanteId) });
+            const umaMatricula = await matriculasServices.pegaUmRegistro({id: Number(matriculaId), estudante_id: Number(estudanteId)});
             return res.status(200).json(umaMatricula);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -28,9 +28,8 @@ class MatriculaController {
         const { estudanteId, matriculaId } = req.params;
         const novasInfos = req.body;
         try {
-            //await database.Matriculas.update(novasInfos, { where: { id: Number(matriculaId), estudante_id: Number(estudanteId) } })
             await matriculasServices.atualizaRegistros(novasInfos, { id: Number(matriculaId), estudante_id: Number(estudanteId) })
-            const matriculaAtualizada = await matriculasServices.pegaUmRegistro({ id: Number(matriculaId) });
+            const matriculaAtualizada = await matriculasServices.pegaUmRegistro(Number(matriculaId));
             return res.status(200).json(matriculaAtualizada);
         } catch (error) {
             return res.status(500).json(error.message);
@@ -40,7 +39,7 @@ class MatriculaController {
     static async apagaMatricula(req, res) {
         const { matriculaId } = req.params;
         try {
-            await matriculasServices.apagaRegistro({ id: Number(matriculaId) });
+            await matriculasServices.apagaRegistro(Number(matriculaId));
             return res.status(200).json({ mensagem: `id ${matriculaId} deletado` })
         } catch (error) {
             return res.status(500).json(error.message);
@@ -48,9 +47,9 @@ class MatriculaController {
     }
 
     static async restauraMatricula(req, res) {
-        const { estudanteId, matriculaId } = req.params;
+        const { matriculaId } = req.params;
         try {
-            await matriculasServices.restauraRegistro({ id: Number(matriculaId), estudante_id: Number(estudanteId) })
+            await matriculasServices.restauraRegistro(Number(matriculaId))
             return res.status(200).json({ message: `id ${matriculaId} restaurado` })
         } catch (error) {
             return res.status(500).json(error.message);
@@ -60,11 +59,10 @@ class MatriculaController {
     static async pegaMatriculasPorTurma(req, res) {
         const { turmaId } = req.params;
         try {
-            const todasAsMatriculas = await database.Matriculas.findAndCountAll({
-                where: {
+            const todasAsMatriculas = await matriculasServices.encontraEContaRegistros({
                     turma_id: Number(turmaId),
                     status: 'confirmado'
-                },
+                },{
                 limit: 20,
                 order: [['estudante_id', 'ASC']]
             });
@@ -77,10 +75,9 @@ class MatriculaController {
     static async pegaTurmasLotadas(req, res) {
         const lotacaoTurma = 2;
         try {
-            const turmasLotadas = await database.Matriculas.findAndCountAll({
-                where: {
+            const turmasLotadas = await matriculasServices.encontraEContaRegistros({
                     status: 'confirmado'
-                },
+                },{
                 attributes: ['turma_id'],
                 group: ['turma_id'],
                 having: Sequelize.literal(`count(turma_id) >= ${lotacaoTurma}`)
