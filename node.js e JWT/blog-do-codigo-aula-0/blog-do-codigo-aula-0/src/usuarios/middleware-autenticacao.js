@@ -1,3 +1,4 @@
+const { regexpToText } = require('nodemon/lib/utils');
 const passport = require('passport');
 
 module.exports = {
@@ -30,7 +31,13 @@ module.exports = {
             { session: false },
             (erro, usuario, info) => {
                 if (erro && erro.name === 'JsonWebTokenError') {
-                    return res.status(401).json({ erro: erro.message });
+                    return res
+                    .status(401)
+                    .json({ erro: erro.message });
+                }
+
+                if (erro && erro.name === 'TokenExpiredError') {
+                    return res.status(401).json({ erro: erro.message, expiradoEm: erro.expiredAt })
                 }
 
                 if (erro) {
